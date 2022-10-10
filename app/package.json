@@ -3,6 +3,7 @@
     "scripts": {
         "dev": "vite --port=3000",
         "serve": "php artisan serve --port=3000",
+        "cache": "php artisan route:clear && php artisan view:clear",
         "migrate": "php artisan migrate",
         "build": "vite build",
         "watch": "vite build --watch"

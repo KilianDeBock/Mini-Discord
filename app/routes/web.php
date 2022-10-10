@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GuildController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,18 +18,9 @@ Route::get('/', function () {
     return view('home/home');
 });
 
-Route::get('/hello', function () {
-    echo 'Hello World';
-});
-
-Route::redirect('/hello/world', '/hello', 301);
-
-Route::get('/hello/{name}', function ($name) {
-    return view('hello', ['name' => $name]);
-});
-
-Route::get('/courses', [CourseController::class, 'index']);
-Route::get('/course/{id}', [CourseController::class, 'detail']);
+Route::get('/guild/{id}', [GuildController::class, 'index']);
 
 Auth::routes();
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+

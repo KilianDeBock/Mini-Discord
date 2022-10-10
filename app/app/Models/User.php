@@ -18,10 +18,24 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'avatar_url',
+        'created_at',
+        'updated_at',
     ];
+
+
+    public function guilds()
+    {
+        return $this->belongsToMany(Guild::class, 'user_guild', 'user_id', 'guild_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Reaction::class, 'user_id', "id");
+    }
 
     /**
      * The attributes that should be hidden for serialization.

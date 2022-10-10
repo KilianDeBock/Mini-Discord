@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Course Detail')
+@section('title', 'Guild Detail')
 
 @section('side-content')
     <h1>Channel</h1>
