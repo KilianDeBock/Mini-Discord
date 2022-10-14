@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('email', 200);
             $table->string('password', 200);
             $table->string('avatar_url', 200)->default('https://cdn.discordapp.com/embed/avatars/0.png');
+            $table->string('remember_token', 100)->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
 

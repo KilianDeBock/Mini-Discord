@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
 Route::get('/', [GuildController::class, 'index']);
 
+Auth::routes();
+Route::get('/guild/create', [GuildController::class, 'create']);
 Route::get('/guild/{id}', [GuildController::class, 'get']);
 
 Auth::routes();

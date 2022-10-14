@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class GuildController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $authUser = Auth::user();
@@ -41,6 +46,21 @@ class GuildController extends Controller
             ]);
         }
 
+        return view('home.home', [
+            'guilds' => $guilds,
+        ]);
+    }
+
+    public function create()
+    {
+        $authUser = Auth::user();
+        $user = User::find($authUser->id);
+        $guilds = $user->guilds;
+        // Test active state
+        $guilds[0]->active = true;
+        if ($guilds == null) {
+            return view('home.home');
+        }
         return view('home.home', [
             'guilds' => $guilds,
         ]);
