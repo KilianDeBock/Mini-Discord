@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('username', 30);
             $table->string('email', 200);
             $table->string('password', 200);
-            $table->string('avatar_url', 200);
+            $table->string('avatar_url', 200)->default('https://cdn.discordapp.com/embed/avatars/0.png');
             $table->timestamps();
         });
 

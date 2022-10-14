@@ -1,5 +1,3 @@
-@php include 'data_tmp.php'; @endphp
-
 @extends('layouts.base')
 
 <head>
@@ -11,10 +9,18 @@
     @section('header')
         <header class="side-menu">
             <ul class="guilds">
-                @foreach($guilds as $guild)
-                    @include('layouts.guild_list')
-                @endforeach
-                <li class="app-version"><span class="app-version__text">Version 1.0</span></li>
+                @if($guilds != null)
+                    @foreach($guilds as $guild)
+                        @include('layouts.guild_list')
+                    @endforeach
+                @endif
+                <li class="app-version">
+                    <button class="guilds__guild">
+                        <h2 class="guilds__guild-name">Add New Server</h2>
+                        <img class="guilds__guild-icon" src="/media/icons/plus.svg" alt="Add icon (plus)">
+                    </button>
+                    <span class="app-version__text">Version 1.0</span>
+                </li>
             </ul>
         </header>
     @show

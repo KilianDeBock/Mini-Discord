@@ -87,6 +87,12 @@ main > section {
     width: 4rem;
     border-radius: 50%;
     background: var(--black-700);
+    transition: border-radius .2s ease-in-out;
+}
+
+.guilds__guild:hover,
+.guilds__guild.active {
+    border-radius: 1rem;
 }
 
 

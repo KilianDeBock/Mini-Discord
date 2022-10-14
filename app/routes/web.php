@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GuildController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home/home');
-});
+Route::get('/', [GuildController::class, 'index']);
 
-Route::get('/guild/{id}', [GuildController::class, 'index']);
+Route::get('/guild/{id}', [GuildController::class, 'get']);
 
 Auth::routes();
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'get'])->name('home');
 
 

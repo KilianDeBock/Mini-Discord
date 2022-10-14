@@ -3,7 +3,7 @@
 @section('title', 'Guild Detail')
 
 @section('side-content')
-    <h1>Channel</h1>
+    <h1>Home</h1>
 @endsection
 
 @section('content')
