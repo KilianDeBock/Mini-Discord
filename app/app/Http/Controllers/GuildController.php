@@ -26,7 +26,7 @@ class GuildController extends Controller
                 $channel = Channel::find($channels->first()->id) ?? null;
             }
             if ($channel !== null) {
-                return redirect("guild/{$id}/{$channel->id}");
+                return redirect("/guild/{$id}/{$channel->id}");
             }
             return view('guild.guild', [
                 'guild_id' => $id,
@@ -65,7 +65,7 @@ class GuildController extends Controller
         $guild->user_id = $user->id;
         $guild->save();
 
-        return redirect('guild/create');
+        return redirect("/guild/{$guild->id}");
     }
 
     public function editPage($id)
@@ -96,6 +96,6 @@ class GuildController extends Controller
             $guild->save();
         }
 
-        return redirect("guild/{$id}");
+        return redirect("/guild/{$id}");
     }
 }

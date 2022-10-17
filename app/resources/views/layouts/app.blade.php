@@ -15,7 +15,7 @@
                     @endforeach
                 @endif
                 <li class="app-version">
-                    <a class="guilds__guild" href="/guilds/create">
+                    <a class="guilds__guild" href="/guild/create">
                         <h2 class="guilds__guild-name">Add New Server</h2>
                         <img class="guilds__guild-icon" src="/media/icons/plus.svg" alt="Add icon (plus)">
                     </a>
