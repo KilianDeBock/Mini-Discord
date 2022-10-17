@@ -2,8 +2,12 @@
 
 @section('title', $guild->displayname)
 
+
 @section('side-content')
     <h1>{{ $guild->displayname }}</h1>
+    @if ($isOwner)
+        <a href="/guild/{{$guild->id}}/edit">Edit Server</a>
+    @endif
     <ul>
         <li>Channel 1</li>
         <li>Channel 2</li>

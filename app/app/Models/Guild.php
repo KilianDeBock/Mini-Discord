@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Guild extends Model
 {
@@ -13,6 +14,16 @@ class Guild extends Model
         'created_at',
         'updated_at',
     ];
+
+    public static function getGuilds()
+    {
+        $authUser = Auth::user();
+        $user = User::findOrFail($authUser->id);
+        $ownedGuilds = Guild::all()->where('user_id', $user->id);
+        $memberGuilds = $user->guilds;
+        $guilds = $ownedGuilds->merge($memberGuilds);
+        return [$guilds, $user];
+    }
 
     public function owner()
     {

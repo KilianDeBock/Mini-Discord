@@ -15,10 +15,10 @@
                     @endforeach
                 @endif
                 <li class="app-version">
-                    <button class="guilds__guild">
+                    <a class="guilds__guild" href="/guild/create">
                         <h2 class="guilds__guild-name">Add New Server</h2>
                         <img class="guilds__guild-icon" src="/media/icons/plus.svg" alt="Add icon (plus)">
-                    </button>
+                    </a>
                     <span class="app-version__text">Version 1.0</span>
                 </li>
             </ul>

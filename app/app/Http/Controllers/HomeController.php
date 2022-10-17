@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guild;
+
 class HomeController extends Controller
 {
     public function __constructor()
@@ -24,8 +26,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
-        return view('home');
+        [$guilds, $user] = Guild::getGuilds();
+        // Test active state
+        if ($guilds == null) {
+            return view('home.home');
+        }
+        return view('home.home', [
+            'guilds' => $guilds,
+        ]);
     }
 }
