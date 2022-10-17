@@ -11,7 +11,6 @@ class Message extends Model
         'channel_id',
         'message_id',
         'user_id',
-        'guild_id',
         'created_at',
     ];
 

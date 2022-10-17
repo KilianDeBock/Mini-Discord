@@ -4,20 +4,23 @@
 
 
 @section('side-content')
-    <h1>{{ $guild->displayname }}</h1>
-    @if ($isOwner)
-        <a href="/guild/{{$guild->id}}/edit">Edit Server</a>
-    @endif
-    <ul>
-        <li>Channel 1</li>
-        <li>Channel 2</li>
-    </ul>
+    <section class="space-out">
+        <article>
+            <h1>{{ $guild->displayname }}</h1>
+            @include('channel.channels')
+        </article>
+        <div>
+            @if ($isOwner)
+                <a href="/guild/{{$guild->id}}/create">Add Channel</a>
+                <a href="/guild/{{$guild->id}}/edit">Edit Server</a>
+            @endif
+        </div>
+    </section>
 @endsection
 
 @section('content')
-    {{ $guild->id }}
-    {{ $guild->owner_id }}
-    {{ $guild->created_at }}
-    {{ $guild->updated_at }}
-    <h1>Mini discord!</h1>
+    <section class="space-out">
+        @include('message.messages')
+        @include('message.createMessage')
+    </section>
 @endsection

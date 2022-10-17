@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Channel;
 use App\Models\Guild;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +18,22 @@ class GuildController extends Controller
 
         $guild = Guild::find($id);
         if ($guild->members->contains($user) or $guild->user_id == $user->id) {
-            $isOwner = $guild->user_id == $user->id;
             $guilds->find($id)->active = true;
+            $isOwner = $guild->user_id == $user->id;
+            $channels = $guild->channels;
+            $channel = null;
+            if ($channels !== null && $channels->count() > 0) {
+                $channel = Channel::find($channels->first()->id) ?? null;
+            }
+            if ($channel !== null) {
+                return redirect("guild/{$id}/{$channel->id}");
+            }
             return view('guild.guild', [
                 'guild_id' => $id,
                 'guild' => $guild,
                 'guilds' => $guilds,
                 'isOwner' => $isOwner,
+                'channel' => null,
             ]);
         }
 

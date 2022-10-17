@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('guilds', function (Blueprint $table) {
+        Schema::create('guild', function (Blueprint $table) {
             $table->id();
             $table->string('displayname', 30);
             $table->string('avatar_url', 200);
@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->primary(['user_id', 'guild_id']);
         });
 
-        Schema::create('channels', function (Blueprint $table) {
+        Schema::create('channel', function (Blueprint $table) {
             $table->id();
             $table->string('name', 30);
             $table->string('description', 200);
@@ -46,7 +46,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('message', function (Blueprint $table) {
             $table->id();
             $table->string('content', 2000);
             $table->foreignId('channel_id');

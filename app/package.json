@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite --port=3000",
+        "dev": "vite",
         "serve": "php artisan serve --port=3000",
         "cache": "php artisan route:clear && php artisan view:clear",
         "migrate": "php artisan migrate",
