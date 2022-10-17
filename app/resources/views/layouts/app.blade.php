@@ -1,8 +1,7 @@
 @extends('layouts.base')
 
 <head>
-    <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/sass/_reset.scss', 'resources/sass/app.scss', 'resources/js/app.js', 'resources/media/**.*'])
 </head>
 
 @section('body')

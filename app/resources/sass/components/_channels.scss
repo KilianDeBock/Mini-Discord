@@ -1,0 +1,20 @@
+
+.channels {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+
+    .channels__channel {
+        border-radius: 1rem;
+        font-weight: bold;
+        background: var(--black-100);
+
+        a {
+            padding: .5rem 1rem;
+            display: block;
+            width: 100%;
+
+        }
+    }
+}
