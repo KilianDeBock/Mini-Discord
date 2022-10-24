@@ -1,15 +1,7 @@
 @if($channel != null and $channel->messages != null)
-    @php($messages = $channel->messages->reverse())
-    <ul class="messages">
-        @foreach($messages as $message)
-            <li class="message" data-id="{{$message->id}}">
-                <span class="message__info">
-                    <img class="message__avatar" src="{{ $message->user->avatar_url }}" alt="Avatar">
-                    <span class="message__username">{{ $message->user->username }}</span>
-                    <span class="message__date">{{ $message->created_at }}</span>
-                </span>
-                <p class="message__content">{{ $message->content }}</p>
-            </li>
+    <ul class="messages" id="messages">
+        @foreach($channel->messages as $message)
+            @include('message.message')
         @endforeach
     </ul>
 @endif

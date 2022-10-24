@@ -5,6 +5,7 @@
     --black-500: #36393f;
     --black-100: #676a72;
     --white-900: #808080;
+    --white-500: #b7b7b7;
     --white-100: #f2f3f5;
 }
 
@@ -22,4 +23,8 @@ body {
 img {
     max-width: 100%;
     max-height: 100%;
+}
+
+button {
+    cursor: pointer;
 }

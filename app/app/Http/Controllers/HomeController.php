@@ -6,11 +6,6 @@ use App\Models\Guild;
 
 class HomeController extends Controller
 {
-    public function __constructor()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Create a new controller instance.
      *
@@ -35,6 +30,7 @@ class HomeController extends Controller
             return view('home.home');
         }
         return view('home.home', [
+            'user' => $user,
             'guilds' => $guilds,
         ]);
     }

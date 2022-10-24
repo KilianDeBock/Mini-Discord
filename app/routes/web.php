@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/guild/create', [GuildController::class, 'createPage']);
 Route::post('/guild/create', [GuildController::class, 'create']);
 Route::get('/guild/{id}/edit', [GuildController::class, 'editPage']);
 Route::post('/guild/{id}/edit', [GuildController::class, 'edit']);
@@ -33,4 +32,6 @@ Route::post('/guild/{guildId}/{channelId}', [ChannelController::class, 'createMe
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'get'])->name('home');
 
+
+Route::get('api/guild/{guildId}/{channelId}/{lastMessageId}', [ChannelController::class, 'getMessages']);
 

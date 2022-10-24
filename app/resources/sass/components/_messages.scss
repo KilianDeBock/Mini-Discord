@@ -35,9 +35,36 @@
             margin-top: -.5rem;
             margin-left: 4rem;
         }
+
+
+        &.reply {
+            background: var(--black-900);
+        }
+
+        &:hover:not(.reply) {
+            background: var(--black-700);
+        }
     }
 
-    .message.selected {
-        background: var(--black-700);
+    .message__reply {
+        height: 1rem;
+        font-size: .8rem;
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+        margin-left: 3.5rem;
+
+        .message__reply__avatar {
+            border-radius: 50%;
+        }
+
+        .message__reply__username {
+            font-weight: bold;
+            color: var(--black-100)
+        }
+
+        .message__reply__content {
+            color: var(--white-900)
+        }
     }
 }

@@ -2,18 +2,24 @@
 
 @section('title', $guild->displayname)
 
+@section('popup')
+    @include('guild.create')
+    @include('guild.edit')
+    @include('channel.create')
+@endsection
 
 @section('side-content')
-    <section class="space-out">
-        <article>
-            <h1>{{ $guild->displayname }}</h1>
-            @include('channel.channels')
-        </article>
-        <div>
+    <section>
+        <article class="guild-info">
+            <h1 class="guild-info__title">{{ $guild->displayname }}</h1>
             @if ($isOwner)
-                <a href="/guild/{{$guild->id}}/create">Add Channel</a>
-                <a href="/guild/{{$guild->id}}/edit">Edit Server</a>
+                <button class="popup-button guild-info__edit" data-name="edit-guild">
+                    Edit Server
+                </button>
             @endif
+        </article>
+        @include('channel.channels')
+        <div>
         </div>
     </section>
 @endsection

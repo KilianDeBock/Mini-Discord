@@ -1,0 +1,22 @@
+.guild-info {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    .guild-info__title {
+        font-size: 1.2rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .guild-info__edit {
+        border: none;
+        background: var(--black-900);
+        color: var(--white-100);
+        padding: .5rem 1.5rem;
+        border-radius: 1rem;
+    }
+}

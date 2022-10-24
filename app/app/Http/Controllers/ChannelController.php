@@ -21,17 +21,35 @@ class ChannelController extends Controller
             $guilds->find($guildId)->active = true;
             $channel = Channel::find($channelId);
             return view('guild.guild', [
+                'user' => $user,
                 'guild_id' => $guildId,
                 'guild' => $guild,
                 'guilds' => $guilds,
                 'isOwner' => $isOwner,
-                'channel' => $channel
+                'channel' => $channel,
             ]);
         }
 
         return view('home.home', [
             'guild' => $guilds,
         ]);
+    }
+
+    public function getMessages($guildId, $channelId, $lastMessageId)
+    {
+        [$guilds, $user] = Guild::getGuilds();
+        // Test active state
+
+        $guild = Guild::find($guildId);
+        if ($guild->members->contains($user) or $guild->user_id == $user->id) {
+            $guilds->find($guildId)->active = true;
+            $channel = Channel::find($channelId);
+            $messages = "";
+            foreach ($channel->messages()->where("id", ">", $lastMessageId)->get() as $message) {
+                $messages .= view('message.message', ['message' => $message])->render();
+            }
+            return $messages;
+        }
     }
 
     public function createMessage($guildId, $channelId)
@@ -53,6 +71,7 @@ class ChannelController extends Controller
             return view('home.home');
         }
         return view('channel.create', [
+            'user' => $user,
             'guild_id' => $guildId,
             'guilds' => $guilds,
         ]);

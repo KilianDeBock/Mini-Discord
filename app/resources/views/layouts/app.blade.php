@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 <head>
-    @vite(['resources/sass/_reset.scss', 'resources/sass/app.scss', 'resources/js/app.js', 'resources/media/**.*'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 @section('body')
@@ -14,10 +14,10 @@
                     @endforeach
                 @endif
                 <li class="app-version">
-                    <a class="guilds__guild" href="/guild/create">
+                    <button class="guilds__guild popup-button" data-name="create-guild">
                         <h2 class="guilds__guild-name">Add New Server</h2>
                         <img class="guilds__guild-icon" src="/media/icons/plus.svg" alt="Add icon (plus)">
-                    </a>
+                    </button>
                     <span class="app-version__text">Version 1.0</span>
                 </li>
             </ul>
@@ -25,6 +25,9 @@
     @show
 
     <main>
+        <section id="popup">
+            @yield('popup')
+        </section>
         <aside>
             @yield('side-content')
         </aside>

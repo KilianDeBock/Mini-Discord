@@ -14,6 +14,12 @@ class Message extends Model
         'created_at',
     ];
 
+    public static function getMessage($id)
+    {
+        $message = Message::find($id);
+        return $message;
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class, 'channel_id', 'id');

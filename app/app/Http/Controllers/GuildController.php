@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use App\Models\Guild;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GuildController extends Controller
@@ -29,6 +30,7 @@ class GuildController extends Controller
                 return redirect("/guild/{$id}/{$channel->id}");
             }
             return view('guild.guild', [
+                'user' => $user,
                 'guild_id' => $id,
                 'guild' => $guild,
                 'guilds' => $guilds,
@@ -45,16 +47,33 @@ class GuildController extends Controller
     public function createPage()
     {
         [$guilds, $user] = Guild::getGuilds();
-        if ($guilds == null) {
-            return view('home.home');
-        }
-        return view('guild.create', [
-            'guilds' => $guilds,
-        ]);
+//        if ($guilds == null) {
+//            return view('home.home');
+//        }
+//        return view('guild.create', [
+//            'guilds' => $guilds,
+//        ]);
+
+
+        return view('guild.create', ['guilds' => $guilds])->render();
     }
 
-    public function create()
+    public function create(Request $request)
     {
+//        dd($request);
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required|max:50',
+//            'description' => 'required',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return back()
+//                ->withErrors($validator)
+//                ->withInput();
+//        }
+//
+//        // Retrieve the validated input...
+//        $validated = $validator->validated();
         $authUser = Auth::user();
         $user = User::findOrFail($authUser->id);
 
@@ -76,6 +95,7 @@ class GuildController extends Controller
             return view('home.home');
         }
         return view('guild.edit', [
+            'user' => $user,
             'guilds' => $guilds,
             'guild' => $guild,
         ]);
