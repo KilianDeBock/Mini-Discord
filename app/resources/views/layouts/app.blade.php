@@ -1,8 +1,8 @@
 @extends('layouts.base')
 
-<head>
+@section('head')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
+@endsection
 
 @section('body')
     @section('header')
