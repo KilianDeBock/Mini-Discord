@@ -4,7 +4,7 @@
             <h3 class="channels__title">Channels</h3>
         </li>
         @foreach($guild->channels as $channel)
-            <li class="channels__channel">
+            <li class="channels__channel{{$channel->id == $channelId ? " active" : ""}}">
                 <a href="/guild/{{ $guild_id }}/{{ $channel->id }}">{{ $channel->name }}</a>
             </li>
         @endforeach

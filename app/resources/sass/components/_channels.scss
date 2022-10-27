@@ -17,6 +17,11 @@
         font-weight: bold;
         background: var(--black-100);
 
+        &.active {
+            background: var(--white-100);
+            color: var(--black-900);
+        }
+
         &.channel__create {
             background-color: var(--black-500);
             color: var(--white-900);

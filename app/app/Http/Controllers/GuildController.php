@@ -8,6 +8,7 @@ use App\Models\Guild;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class GuildController extends Controller
 {
@@ -44,65 +45,71 @@ class GuildController extends Controller
         ]);
     }
 
-    public function createPage()
-    {
-        [$guilds, $user] = Guild::getGuilds();
-//        if ($guilds == null) {
-//            return view('home.home');
-//        }
-//        return view('guild.create', [
-//            'guilds' => $guilds,
-//        ]);
-
-
-        return view('guild.create', ['guilds' => $guilds])->render();
-    }
-
     public function create(Request $request)
     {
-//        dd($request);
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required|max:50',
-//            'description' => 'required',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return back()
-//                ->withErrors($validator)
-//                ->withInput();
-//        }
-//
-//        // Retrieve the validated input...
-//        $validated = $validator->validated();
+        $validator = Validator::make($request->all(), [
+            'displayname' => 'required|max:30',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $authUser = Auth::user();
         $user = User::findOrFail($authUser->id);
 
         $guild = new Guild();
         $guild->displayname = request('displayname');
-        $guild->avatar_url = request('avatar_url');
-        $guild->banner_url = request('banner_url');
+        $guild->avatar_url = '0.png';
+        $guild->banner_url = '0.png';
         $guild->user_id = $user->id;
         $guild->save();
+
+        $avatar_file = $request->file('avatar');
+        if ($avatar_file) {
+            $extention = $avatar_file->getClientOriginalExtension();
+            $uploaded_path = $request->file('avatar')->storeAs('public/guilds/avatars', $guild->id . '.' . $extention);
+            //haal enkel de filename op van het pad
+            $filename = basename($uploaded_path);
+            $guild->avatar_url = $filename;
+        }
+
+        $banner_file = $request->file('banner');
+        if ($banner_file) {
+            $extention = $banner_file->getClientOriginalExtension();
+            $uploaded_path = $request->file('banner')->storeAs('public/guilds/banners', $guild->id . '.' . $extention);
+            //haal enkel de filename op van het pad
+            $filename = basename($uploaded_path);
+            $guild->banner_url = $filename;
+        }
+
+        $guild->save();
+
+        $channel = new Channel();
+        $channel->name = 'general';
+        $channel->description = 'All about general stuff';
+        $channel->guild_id = $guild->id;
+        $channel->save();
 
         return redirect("/guild/{$guild->id}");
     }
 
-    public function editPage($id)
+    public function edit(Request $request, $id)
     {
-        [$guilds, $user] = Guild::getGuilds();
-        $guild = Guild::findOrFail($id);
-        if ($guilds == null or $guild == null) {
-            return view('home.home');
-        }
-        return view('guild.edit', [
-            'user' => $user,
-            'guilds' => $guilds,
-            'guild' => $guild,
+        $validator = Validator::make($request->all(), [
+            'displayname' => 'required|max:30',
+            'avatar_url' => 'required|max:200',
+            'banner_url' => 'required|max:200',
         ]);
-    }
 
-    public function edit($id)
-    {
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $authUser = Auth::user();
         $user = User::findOrFail($authUser->id);
 
@@ -117,5 +124,28 @@ class GuildController extends Controller
         }
 
         return redirect("/guild/{$id}");
+    }
+
+    public function join(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'guild_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $authUser = Auth::user();
+        $user = User::findOrFail($authUser->id);
+        $guild = Guild::find($request->guild_id);
+
+        if (!$guild->members->contains($user)) {
+            $guild->members()->attach($user);
+        }
+
+        return redirect("/guild/{$request->guild_id}");
     }
 }

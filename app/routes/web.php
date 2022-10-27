@@ -21,11 +21,10 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
 
 Route::post('/guild/create', [GuildController::class, 'create']);
-Route::get('/guild/{id}/edit', [GuildController::class, 'editPage']);
+Route::post('/guild/join', [GuildController::class, 'join']);
 Route::post('/guild/{id}/edit', [GuildController::class, 'edit']);
 Route::get('/guild/{id}', [GuildController::class, 'get']);
 
-Route::get('/guild/{guildId}/create', [ChannelController::class, 'createPage']);
 Route::post('/guild/{guildId}/create', [ChannelController::class, 'create']);
 Route::get('/guild/{guildId}/{channelId}', [ChannelController::class, 'get']);
 Route::post('/guild/{guildId}/{channelId}', [ChannelController::class, 'createMessage']);

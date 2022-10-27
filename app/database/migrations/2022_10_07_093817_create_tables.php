@@ -17,13 +17,13 @@ return new class extends Migration {
             $table->string('username', 30);
             $table->string('email', 200);
             $table->string('password', 200);
-            $table->string('avatar_url', 200)->default('https://cdn.discordapp.com/embed/avatars/0.png');
+            $table->string('avatar_url', 200)->default('0.png');
             $table->string('remember_token', 100)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('guild', function (Blueprint $table) {
+        Schema::create('guilds', function (Blueprint $table) {
             $table->id();
             $table->string('displayname', 30);
             $table->string('avatar_url', 200);
@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->primary(['user_id', 'guild_id']);
         });
 
-        Schema::create('channel', function (Blueprint $table) {
+        Schema::create('channels', function (Blueprint $table) {
             $table->id();
             $table->string('name', 30);
             $table->string('description', 200);
@@ -46,7 +46,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('message', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('content', 2000);
             $table->foreignId('channel_id');

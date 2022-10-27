@@ -29,6 +29,7 @@
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .message__content {
@@ -56,6 +57,8 @@
 
         .message__reply__avatar {
             border-radius: 50%;
+            aspect-ratio: 1;
+            object-fit: cover;
         }
 
         .message__reply__username {

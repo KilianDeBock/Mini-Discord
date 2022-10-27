@@ -64,10 +64,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $avatar = '0.png';
+
+        $user = User::create([
             'username' => $data['username'],
             'email' => $data['email'],
+            'avatar_url' => $avatar,
             'password' => Hash::make($data['password']),
         ]);
+
+        if ($data['avatar'] !== null) {
+            $avatar = $data['avatar'];
+
+            $avatar_file = $data['avatar'];
+            if ($avatar_file) {
+                $extention = $avatar_file->getClientOriginalExtension();
+                $uploaded_path = $avatar_file->storeAs('public/users/avatars', $user->id . '.' . $extention);
+                //haal enkel de filename op van het pad
+                $filename = basename($uploaded_path);
+
+                $user->avatar_url = $filename;
+                $user->save();
+            }
+        }
+
+        return $user;
     }
 }

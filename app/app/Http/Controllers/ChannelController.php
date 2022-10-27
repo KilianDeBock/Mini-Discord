@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use App\Models\Guild;
 use App\Models\Message;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ChannelController extends Controller
 {
@@ -22,6 +24,7 @@ class ChannelController extends Controller
             $channel = Channel::find($channelId);
             return view('guild.guild', [
                 'user' => $user,
+                'channelId' => $channelId,
                 'guild_id' => $guildId,
                 'guild' => $guild,
                 'guilds' => $guilds,
@@ -45,15 +48,33 @@ class ChannelController extends Controller
             $guilds->find($guildId)->active = true;
             $channel = Channel::find($channelId);
             $messages = "";
+            $lastMessage = Message::where('id', '<=', $lastMessageId)->where('channel_id', $channelId)->orderBy('id', 'desc')->first();
+            $lastUserId = $lastMessage->user_id ?? 0;
             foreach ($channel->messages()->where("id", ">", $lastMessageId)->get() as $message) {
-                $messages .= view('message.message', ['message' => $message])->render();
+                if ($lastUserId == $message->user_id && $message->message_id == 0) {
+                    $newMessage = view('message.moreMessage', ['message' => $message])->render();
+                } else {
+                    $newMessage = view('message.message', ['message' => $message])->render();
+                }
+                $messages .= $newMessage;
+                $lastUserId = $message->user_id;
             }
             return $messages;
         }
     }
 
-    public function createMessage($guildId, $channelId)
+    public function createMessage(Request $request, $guildId, $channelId)
     {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|max:2000',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $newMessage = new Message();
         $newMessage->content = request('content');
         $newMessage->channel_id = $channelId;
@@ -64,21 +85,19 @@ class ChannelController extends Controller
         return redirect("guild/{$guildId}/{$channelId}");
     }
 
-    public function createPage($guildId)
+    public function create(Request $request, $guildId)
     {
-        [$guilds, $user] = Guild::getGuilds();
-        if ($guilds == null) {
-            return view('home.home');
-        }
-        return view('channel.create', [
-            'user' => $user,
-            'guild_id' => $guildId,
-            'guilds' => $guilds,
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:300',
+            'description' => 'required|max:200',
         ]);
-    }
 
-    public function create($guildId)
-    {
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $newChannel = new Channel();
 
         $newChannel->name = request('name');

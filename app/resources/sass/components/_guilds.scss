@@ -31,8 +31,9 @@
     .guilds__guild-icon {
         width: 100%;
         height: 100%;
+        object-fit: cover;
     }
-    
+
     .app-version {
         flex-grow: 1;
         color: var(--black-100);

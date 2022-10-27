@@ -35,6 +35,7 @@
 
             // Set the messages_id input value to the target id
             app.$messages_id.value = target.dataset.id
+            app.$messageContentBox && app.$messageContentBox.select();
         },
         startMessageChecking() {
             actions.updateMessages()
@@ -90,10 +91,12 @@
             this.$messagesContainer = document.querySelector('#messages')
             this.$messages = document.querySelectorAll('#messages .message')
             this.$messages_id = document.querySelector('#message_id')
+            this.$messageContentBox = document.querySelector('#content')
             this.$last_message = document.querySelector('#messages .message:last-child')
             this.$popupButtons = document.querySelectorAll('.popup-button')
         },
         bindEvents() {
+            this.$messageContentBox && this.$messageContentBox.select();
             this.$messagesContainer && this.$messagesContainer.addEventListener('click', actions.setReplyMessage)
             this.$popupButtons && this.$popupButtons.forEach(
                 button => button.addEventListener('click', e => actions.popup(actions.getTargetWithDataset(e.target, 'name')))
