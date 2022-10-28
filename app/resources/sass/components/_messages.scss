@@ -5,7 +5,11 @@
 
 
     .message {
-        padding: .8rem 1rem;
+        padding: .5rem 1rem 0;
+
+        &:not(.message__again) {
+            margin-top: 1.5rem;
+        }
 
 
         .message__info {
@@ -34,6 +38,7 @@
         .message__content {
             margin-top: -.5rem;
             margin-left: 4rem;
+            word-break: break-word;
         }
 
 
@@ -43,6 +48,26 @@
 
         &:hover:not(.reply) {
             background: var(--black-700);
+        }
+
+        &.message__again {
+            margin: 0;
+            padding-top: 0;
+            display: flex;
+            align-items: center;
+
+            .message__content {
+                padding: 0;
+                margin: 0 0 0 .9rem;
+            }
+
+            &:hover .message__date--again {
+                color: var(--black-100);
+            }
+
+            .message__date--again {
+                color: transparent;
+            }
         }
     }
 

@@ -16,5 +16,7 @@
         <span class="message__username">{{ $message->user->username }}</span>
         <span class="message__date">{{ $message->created_at }}</span>
     </section>
-    <p class="message__content">{{ $message->content }}</p>
+    <p class="message__content">
+        @include('message.messageContent')
+    </p>
 </li>

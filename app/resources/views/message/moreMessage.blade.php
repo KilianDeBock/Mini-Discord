@@ -1,3 +1,6 @@
 <li class="message message__again" data-id="{{$message->id}}">
-    <p class="message__content">{{ $message->content }}</p>
+    <span class="message__date message__date--again">{{ $message->created_at->format('H:i:s') }}</span>
+    <p class="message__content">
+        @include('message.messageContent')
+    </p>
 </li>
