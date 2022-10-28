@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title') - Mini Discord</title>
-    <script src="https://livejs.com/live.js"></script>
+    {{--    <script src="https://livejs.com/live.js"></script>--}}
     @yield('head')
 </head>
 <body>

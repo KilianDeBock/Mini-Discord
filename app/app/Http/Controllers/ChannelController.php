@@ -85,6 +85,23 @@ class ChannelController extends Controller
         return redirect("guild/{$guildId}/{$channelId}");
     }
 
+    public function deleteMessage($guildId, $messageId)
+    {
+//        dd($guildId, $messageId);
+        [$guilds, $user] = Guild::getGuilds();
+        $guild = Guild::find($guildId);
+        $message = Message::find($messageId);
+        $isOwner = $guild->user_id == $user->id;
+        $isFromGuild = $message->channel->guild->id == $guildId;
+        $channelId = $message->channel->id;
+
+        if ($isOwner and $isFromGuild) {
+            $message->delete();
+        }
+
+        return redirect("guild/{$guildId}/{$channelId}");
+    }
+
     public function create(Request $request, $guildId)
     {
         $validator = Validator::make($request->all(), [

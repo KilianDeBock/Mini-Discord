@@ -26,6 +26,7 @@ Route::post('/guild/{id}/edit', [GuildController::class, 'edit']);
 Route::get('/guild/{id}', [GuildController::class, 'get']);
 
 Route::post('/guild/{guildId}/create', [ChannelController::class, 'create']);
+Route::post('/guild/{guildId}/message/{messageId}', [ChannelController::class, 'deleteMessage']);
 Route::get('/guild/{guildId}/{channelId}', [ChannelController::class, 'get']);
 Route::post('/guild/{guildId}/{channelId}', [ChannelController::class, 'createMessage']);
 

@@ -5,7 +5,8 @@
 
 
     .message {
-        padding: .5rem 1rem 0;
+        position: relative;
+        padding: .5rem 3rem 0 1rem;
 
         &:not(.message__again) {
             margin-top: 1.5rem;
@@ -67,6 +68,27 @@
 
             .message__date--again {
                 color: transparent;
+            }
+        }
+
+        &:hover .message__delete {
+            background-color: var(--red-100);
+        }
+
+        .message__delete {
+            position: absolute;
+            font-size: 0;
+            padding: .5rem;
+            border-radius: 1rem;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: background-color .2s ease-in-out;
+
+
+            &:hover {
+                background-color: var(--red-500);
             }
         }
     }

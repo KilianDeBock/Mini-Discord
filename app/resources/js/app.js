@@ -73,6 +73,18 @@
         async closePopup() {
             app.$popup.classList.remove('active')
             app.$popups.forEach(popup => popup.classList.remove('active'))
+        },
+        async deleteMessage(guildId, messageId, token, $message) {
+            const apiUrl = `/guild/${guildId}/message/${messageId}`
+            await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({_token: token})
+            })
+
+            $message.remove()
         }
     }
 
@@ -94,6 +106,7 @@
             this.$messageContentBox = document.querySelector('#content')
             this.$last_message = document.querySelector('#messages .message:last-child')
             this.$popupButtons = document.querySelectorAll('.popup-button')
+            this.$messageDeleteButtons = document.querySelectorAll('.message__delete')
         },
         bindEvents() {
             this.$messageContentBox && this.$messageContentBox.select();
@@ -102,6 +115,16 @@
                 button => button.addEventListener('click', e => actions.popup(actions.getTargetWithDataset(e.target, 'name')))
             )
             this.$popup.addEventListener('click', e => e.target.id === 'popup' ? actions.closePopup() : null)
+            this.$messageDeleteButtons && this.$messageDeleteButtons.forEach(
+                button => button.addEventListener('click', e => {
+                    e.preventDefault()
+                    const messageId = actions.getTargetWithDataset(e.target.querySelector('button'), 'id').dataset.id
+                    const guildId = actions.getTargetWithDataset(e.target.querySelector('button'), 'guild_id').dataset.guild_id
+                    const token = e.target.querySelector('input').value
+                    const $message = e.target.parentNode
+                    actions.deleteMessage(guildId, messageId, token, $message)
+                })
+            )
         }
     }
 

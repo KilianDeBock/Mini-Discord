@@ -3,4 +3,7 @@
     <p class="message__content">
         @include('message.messageContent')
     </p>
+    @if($guild->user_id == Auth::user()->id)
+        @include('message.messageDelete')
+    @endif
 </li>
