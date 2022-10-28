@@ -69,8 +69,8 @@ class GuildController extends Controller
 
         $avatar_file = $request->file('avatar');
         if ($avatar_file) {
-            $extention = $avatar_file->getClientOriginalExtension();
-            $uploaded_path = $request->file('avatar')->storeAs('public/guilds/avatars', $guild->id . '.' . $extention);
+            $extension = $avatar_file->getClientOriginalExtension();
+            $uploaded_path = $request->file('avatar')->storeAs('public/guilds/avatars', $guild->id . '.' . $extension);
             //haal enkel de filename op van het pad
             $filename = basename($uploaded_path);
             $guild->avatar_url = $filename;
@@ -78,8 +78,8 @@ class GuildController extends Controller
 
         $banner_file = $request->file('banner');
         if ($banner_file) {
-            $extention = $banner_file->getClientOriginalExtension();
-            $uploaded_path = $request->file('banner')->storeAs('public/guilds/banners', $guild->id . '.' . $extention);
+            $extension = $banner_file->getClientOriginalExtension();
+            $uploaded_path = $request->file('banner')->storeAs('public/guilds/banners', $guild->id . '.' . $extension);
             //haal enkel de filename op van het pad
             $filename = basename($uploaded_path);
             $guild->banner_url = $filename;

@@ -78,8 +78,8 @@ class RegisterController extends Controller
 
             $avatar_file = $data['avatar'];
             if ($avatar_file) {
-                $extention = $avatar_file->getClientOriginalExtension();
-                $uploaded_path = $avatar_file->storeAs('public/users/avatars', $user->id . '.' . $extention);
+                $extension = $avatar_file->getClientOriginalExtension();
+                $uploaded_path = $avatar_file->storeAs('public/users/avatars', $user->id . '.' . $extension);
                 //haal enkel de filename op van het pad
                 $filename = basename($uploaded_path);
 
