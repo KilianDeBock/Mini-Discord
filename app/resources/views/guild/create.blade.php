@@ -18,8 +18,9 @@
     </form>
     <form action="/guild/join" method="post" class="popup__item">
         @csrf
+        <h2>Join Server</h2>
         <label>
-            Or join an existing server by its id:
+            Server ID:
             <input type="number" name="guild_id" id="guild_id">
         </label>
         <button type="submit">Join</button>
