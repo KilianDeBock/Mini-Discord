@@ -50,17 +50,21 @@ class ChannelController extends Controller
             $messages = "";
             $lastMessage = Message::where('id', '<=', $lastMessageId)->where('channel_id', $channelId)->orderBy('id', 'desc')->first();
             $lastUserId = $lastMessage->user_id ?? 0;
+            $lastCreatedAt = $lastMessage->created_at ?? 0;
             foreach ($channel->messages()->where("id", ">", $lastMessageId)->get() as $message) {
-                $now = time();
-                $date = strtotime($message->created_at);
-                $diff = $now - $date;
-                if ($lastUserId == $message->user_id && $message->message_id == 0 and $diff < 10) {
+
+                $isSameUser = $lastUserId == $message->user_id;
+                $isNoReply = $message->message_id == 0;
+                $noMoreThan10MinutesPassed = (strtotime($message->created_at) - strtotime($lastCreatedAt) < 600);
+
+                if ($isSameUser && $isNoReply and $noMoreThan10MinutesPassed) {
                     $newMessage = view('message.moreMessage', ['message' => $message, 'guild' => $guild])->render();
                 } else {
                     $newMessage = view('message.message', ['message' => $message, 'guild' => $guild])->render();
                 }
                 $messages .= $newMessage;
                 $lastUserId = $message->user_id;
+                $lastCreatedAt = $message->created_at;
             }
             return $messages;
         }
@@ -100,6 +104,24 @@ class ChannelController extends Controller
 
         if ($isOwner and $isFromGuild) {
             $message->delete();
+        }
+
+        return redirect("guild/{$guildId}/{$channelId}");
+    }
+
+    public function deleteChannel($guildId, $channelId)
+    {
+//        dd($guildId, $messageId);
+        [$guilds, $user] = Guild::getGuilds();
+        $guild = Guild::find($guildId);
+        $channel = Channel::find($channelId);
+        $isOwner = $guild->user_id == $user->id;
+        $isFromGuild = $channel->guild->id == $guildId;
+        $channelId = $channel->id;
+
+        if ($isOwner and $isFromGuild) {
+            Message::where('channel_id', $channelId)->delete();
+            $channel->delete();
         }
 
         return redirect("guild/{$guildId}/{$channelId}");

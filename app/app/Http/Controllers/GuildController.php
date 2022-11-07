@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Guild;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -147,5 +148,21 @@ class GuildController extends Controller
         }
 
         return redirect("/guild/{$request->guild_id}");
+    }
+
+    public function deleteGuild($guildId)
+    {
+        [$guilds, $user] = Guild::getGuilds();
+        $guild = Guild::find($guildId);
+        $isOwner = $guild->user_id == $user->id;
+        $channelId = $guild->id;
+
+        if ($isOwner) {
+            Message::where('channel_id', $channelId)->delete();
+            Channel::where('guild_id', $guildId)->delete();
+            $guild->delete();
+        }
+
+        return redirect("/");
     }
 }

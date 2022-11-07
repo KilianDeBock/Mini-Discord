@@ -6,6 +6,7 @@
     @include('guild.create')
     @include('guild.edit')
     @include('channel.create')
+    @include('popup.confirm')
 @endsection
 
 @section('side-content')
@@ -16,11 +17,14 @@
                 <button class="popup-button guild-info__edit" data-name="edit-guild">
                     Edit Server
                 </button>
+
+                <form class="guild__delete" method="post">
+                    @csrf
+                    <button data-id="{{$guild->id}}">Delete Guild</button>
+                </form>
             @endif
         </article>
         @include('channel.channels')
-        <div>
-        </div>
     </section>
 @endsection
 

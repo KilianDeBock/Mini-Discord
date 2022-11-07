@@ -42,9 +42,13 @@
             setInterval(actions.updateMessages, 1000)
         },
         async updateMessages() {
-            if (!app.$last_message) return;
+            const msgContainer = app.$messagesContainer
+            if (!msgContainer) return
+
+            const messageId = app.$last_message?.dataset?.id ?? 0
+
             // Fetch new messages
-            const apiUrl = `/api${window.location.pathname}/${app.$last_message.dataset.id}`;
+            const apiUrl = `/api${window.location.pathname}/${messageId}`;
             const result = await fetch(apiUrl)
 
             // Parse response and stop if no new messages
@@ -52,7 +56,6 @@
             if (!data) return;
 
             // Get if we can scroll after the update
-            const msgContainer = app.$messagesContainer
             const canScroll = msgContainer.scrollHeight - msgContainer.clientHeight - msgContainer.scrollTop < 10
 
             // Update the messages
@@ -86,11 +89,53 @@
 
             $message.remove()
         },
+        async deleteChannel(guildId, channelId, token) {
+            const apiUrl = `/guild/${guildId}/${channelId}/delete`
+            await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({_token: token})
+            })
+
+            window.location.replace("/guild/" + guildId)
+        },
+        async deleteGuild(guildId, token) {
+            const apiUrl = `/guild/${guildId}/delete`
+            await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({_token: token})
+            })
+
+            window.location.replace("/");
+        },
         handleMessageContentBoxSubmit: (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault()
                 e.target.form.submit()
             }
+        },
+        waitForConfirm: async () => {
+            await actions.popup(app.$popupConfirm)
+            const {submitter} = await actions.getPromiseFromEvent(app.$popupConfirm, "submit")
+            await actions.closePopup()
+            return submitter.id === 'yes';
+
+        },
+        // Credit: https://stackoverflow.com/a/70789108
+        getPromiseFromEvent: (item, event) => {
+            return new Promise((resolve) => {
+                const listener = (ev) => {
+                    ev.preventDefault();
+                    item.removeEventListener(event, listener);
+                    resolve(ev);
+                }
+                item.addEventListener(event, listener);
+            })
         }
     }
 
@@ -106,6 +151,7 @@
         cacheElements() {
             this.$popup = document.querySelector('#popup')
             this.$popups = document.querySelectorAll('#popup .popup')
+            this.$popupConfirm = document.querySelector('#popup #confirm')
             this.$messagesContainer = document.querySelector('#messages')
             this.$messages = document.querySelectorAll('#messages .message')
             this.$messages_id = document.querySelector('#message_id')
@@ -113,6 +159,8 @@
             this.$last_message = document.querySelector('#messages .message:last-child')
             this.$popupButtons = document.querySelectorAll('.popup-button')
             this.$messageDeleteButtons = document.querySelectorAll('.message__delete')
+            this.$channelDeleteButtons = document.querySelectorAll('.channel__delete')
+            this.$guildDeleteButton = document.querySelector('.guild__delete')
         },
         bindEvents() {
             this.$messageContentBox && this.$messageContentBox.select();
@@ -129,9 +177,32 @@
                     const guildId = actions.getTargetWithDataset(e.target.querySelector('button'), 'guild_id').dataset.guild_id
                     const token = e.target.querySelector('input').value
                     const $message = e.target.parentNode
-                    actions.deleteMessage(guildId, messageId, token, $message)
+                    actions.waitForConfirm().then((r) => {
+                        if (r) actions.deleteMessage(guildId, messageId, token, $message)
+                    })
                 })
             )
+            this.$channelDeleteButtons && this.$channelDeleteButtons.forEach(
+                button => button.addEventListener('click', e => {
+                    e.preventDefault()
+                    console.log(e.target)
+                    const channelId = e.target.dataset.id
+                    const guildId = e.target.dataset.guild_id
+
+                    const token = e.target.parentNode.querySelector('input').value
+                    actions.waitForConfirm().then((r) => {
+                        if (r) actions.deleteChannel(guildId, channelId, token)
+                    })
+                })
+            )
+            this.$guildDeleteButton && this.$guildDeleteButton.addEventListener('click', e => {
+                e.preventDefault()
+                const guildId = e.target.dataset.id
+                const token = e.target.parentNode.querySelector('input').value
+                actions.waitForConfirm().then((r) => {
+                    if (r) actions.deleteGuild(guildId, token)
+                })
+            })
         }
     }
 

@@ -26,12 +26,16 @@ class HomeController extends Controller
     {
         [$guilds, $user] = Guild::getGuilds();
         // Test active state
-        if ($guilds == null) {
-            return view('home.home');
+        if ($guilds->count() < 1) {
+            return view('home.home', [
+                'user' => $user,
+                'guilds' => $guilds,
+            ]);
         }
-        return view('home.home', [
-            'user' => $user,
-            'guilds' => $guilds,
-        ]);
+        return redirect('/guild/' . $guilds->first()->id);
+//        return view('home.home', [
+//            'user' => $user,
+//            'guilds' => $guilds,
+//        ]);
     }
 }

@@ -24,11 +24,13 @@ Route::post('/guild/create', [GuildController::class, 'create']);
 Route::post('/guild/join', [GuildController::class, 'join']);
 Route::post('/guild/{id}/edit', [GuildController::class, 'edit']);
 Route::get('/guild/{id}', [GuildController::class, 'get']);
+Route::post('/guild/{guildId}/delete', [GuildController::class, 'deleteGuild']);
 
 Route::post('/guild/{guildId}/create', [ChannelController::class, 'create']);
 Route::post('/guild/{guildId}/message/{messageId}', [ChannelController::class, 'deleteMessage']);
 Route::get('/guild/{guildId}/{channelId}', [ChannelController::class, 'get']);
 Route::post('/guild/{guildId}/{channelId}', [ChannelController::class, 'createMessage']);
+Route::post('/guild/{guildId}/{channelId}/delete', [ChannelController::class, 'deleteChannel']);
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'get'])->name('home');
 

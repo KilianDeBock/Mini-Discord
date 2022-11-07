@@ -6,6 +6,10 @@
         @foreach($guild->channels as $channel)
             <li class="channels__channel{{$channel->id == $channelId ? " active" : ""}}">
                 <a href="/guild/{{ $guild_id }}/{{ $channel->id }}">{{ $channel->name }}</a>
+
+                @if($guild->user_id == Auth::user()->id)
+                    @include('channel.channelDelete')
+                @endif
             </li>
         @endforeach
         @if ($isOwner)

@@ -13,6 +13,7 @@
     }
 
     .channels__channel {
+        position: relative;
         border-radius: 1rem;
         font-weight: bold;
         background: var(--black-100);
@@ -34,6 +35,30 @@
             display: block;
             width: 100%;
 
+        }
+
+
+        &:hover .channel__delete {
+            background-color: var(--red-100);
+            transition: background-color .2s ease-in-out;
+        }
+
+        .channel__delete {
+            background-color: transparent;
+            position: absolute;
+            font-size: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            right: .5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+
+
+            &:hover {
+                background-color: var(--red-500);
+            }
         }
     }
 }

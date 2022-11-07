@@ -13,3 +13,7 @@ $line-height-base: 1.6;
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+html {
+    filter: invert(1);
+}

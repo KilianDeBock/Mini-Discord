@@ -44,5 +44,20 @@
         flex-direction: column;
         justify-content: flex-end;
     }
+}
 
+
+.guild__delete {
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 1rem;
+
+    button {
+        padding: .5rem 1rem
+    }
+
+
+    &:hover {
+        background-color: var(--red-500);
+    }
 }
