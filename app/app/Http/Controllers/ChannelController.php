@@ -51,10 +51,13 @@ class ChannelController extends Controller
             $lastMessage = Message::where('id', '<=', $lastMessageId)->where('channel_id', $channelId)->orderBy('id', 'desc')->first();
             $lastUserId = $lastMessage->user_id ?? 0;
             foreach ($channel->messages()->where("id", ">", $lastMessageId)->get() as $message) {
-                if ($lastUserId == $message->user_id && $message->message_id == 0) {
-                    $newMessage = view('message.moreMessage', ['message' => $message])->render();
+                $now = time();
+                $date = strtotime($message->created_at);
+                $diff = $now - $date;
+                if ($lastUserId == $message->user_id && $message->message_id == 0 and $diff < 10) {
+                    $newMessage = view('message.moreMessage', ['message' => $message, 'guild' => $guild])->render();
                 } else {
-                    $newMessage = view('message.message', ['message' => $message])->render();
+                    $newMessage = view('message.message', ['message' => $message, 'guild' => $guild])->render();
                 }
                 $messages .= $newMessage;
                 $lastUserId = $message->user_id;

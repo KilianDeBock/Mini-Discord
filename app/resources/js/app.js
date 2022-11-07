@@ -85,6 +85,12 @@
             })
 
             $message.remove()
+        },
+        handleMessageContentBoxSubmit: (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                e.target.form.submit()
+            }
         }
     }
 
@@ -110,6 +116,7 @@
         },
         bindEvents() {
             this.$messageContentBox && this.$messageContentBox.select();
+            this.$messageContentBox && this.$messageContentBox.addEventListener('keydown', actions.handleMessageContentBoxSubmit)
             this.$messagesContainer && this.$messagesContainer.addEventListener('click', actions.setReplyMessage)
             this.$popupButtons && this.$popupButtons.forEach(
                 button => button.addEventListener('click', e => actions.popup(actions.getTargetWithDataset(e.target, 'name')))

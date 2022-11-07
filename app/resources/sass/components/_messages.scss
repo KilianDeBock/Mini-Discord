@@ -73,9 +73,11 @@
 
         &:hover .message__delete {
             background-color: var(--red-100);
+            transition: background-color .2s ease-in-out;
         }
 
         .message__delete {
+            background-color: transparent;
             position: absolute;
             font-size: 0;
             padding: .5rem;
@@ -84,7 +86,6 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            transition: background-color .2s ease-in-out;
 
 
             &:hover {
