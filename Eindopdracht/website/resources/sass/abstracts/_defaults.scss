@@ -1,0 +1,33 @@
+
+:root {
+    --black-900: #202225;
+    --black-700: #2f3136;
+    --black-500: #36393f;
+    --black-200: #474850;
+    --black-100: #676a72;
+    --white-900: #808080;
+    --white-500: #b7b7b7;
+    --white-100: #f2f3f5;
+    --red-500: #850000;
+    --red-100: #da0000;
+}
+
+body {
+    font-family: helvetica, arial, sans-serif;
+    background: var(--black-500);
+    display: flex;
+    color: var(--white-100);
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+button {
+    cursor: pointer;
+}

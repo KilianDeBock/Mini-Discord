@@ -1,0 +1,15 @@
+.chatbox {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+
+    .chatbox__input {
+        flex-grow: 1;
+        border: none;
+        background: var(--black-100);
+        color: var(--white-100);
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+}

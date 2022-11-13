@@ -1,0 +1,30 @@
+
+main {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    /*overflow-y: scroll;*/
+    overflow: hidden;
+
+    > aside {
+        position: fixed;
+        background: var(--black-700);
+        left: -100%;
+        top: 0;
+        height: 100vh;
+        max-width: 18rem;
+        width: 100%;
+        overflow-y: scroll;
+
+        @media (min-width: 768px) {
+            left: 0;
+            position: relative;
+        }
+    }
+
+    > section {
+        height: 100vh;
+        width: 100%;
+        overflow-y: scroll;
+    }
+}
