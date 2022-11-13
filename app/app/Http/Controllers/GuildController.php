@@ -101,8 +101,6 @@ class GuildController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'displayname' => 'required|max:30',
-            'avatar_url' => 'required|max:200',
-            'banner_url' => 'required|max:200',
         ]);
 
         if ($validator->fails()) {
@@ -118,8 +116,25 @@ class GuildController extends Controller
 
         if ($guild->user_id == $user->id) {
             $guild->displayname = request('displayname');
-            $guild->avatar_url = request('avatar_url');
-            $guild->banner_url = request('banner_url');
+
+            $avatar_file = $request->file('avatar');
+            if ($avatar_file) {
+                $extension = $avatar_file->getClientOriginalExtension();
+                $uploaded_path = $request->file('avatar')->storeAs('public/guilds/avatars', $guild->id . '.' . $extension);
+                //haal enkel de filename op van het pad
+                $filename = basename($uploaded_path);
+                $guild->avatar_url = $filename;
+            }
+
+            $banner_file = $request->file('banner');
+            if ($banner_file) {
+                $extension = $banner_file->getClientOriginalExtension();
+                $uploaded_path = $request->file('banner')->storeAs('public/guilds/banners', $guild->id . '.' . $extension);
+                //haal enkel de filename op van het pad
+                $filename = basename($uploaded_path);
+                $guild->banner_url = $filename;
+            }
+
             $guild->user_id = $user->id;
             $guild->save();
         }

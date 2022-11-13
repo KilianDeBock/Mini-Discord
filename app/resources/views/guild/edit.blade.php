@@ -1,4 +1,4 @@
-<form action="/guild/{{$guild->id}}/edit" method="post" class="popup edit-guild">
+<form action="/guild/{{$guild->id}}/edit" method="post" class="popup edit-guild" enctype="multipart/form-data">
     @csrf
     <h2>Edit Server</h2>
     <label>
@@ -7,12 +7,12 @@
                placeholder="Display Name">
     </label>
     <label>
-        Avatar URL:
-        <input type="text" name="avatar_url" id="avatar_url" value="{{$guild->avatar_url}}" placeholder="avatar_url">
+        Avatar:
+        <input type="file" name="avatar" id="avatar">
     </label>
     <label>
-        Banner URL:
-        <input type="text" name="banner_url" id="banner_url" value="{{$guild->banner_url}}" placeholder="banner_url">
+        Banner:
+        <input type="file" name="banner" id="banner">
     </label>
-    <button type="submit">Create</button>
+    <button type="submit">Edit</button>
 </form>
